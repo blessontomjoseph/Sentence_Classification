@@ -6,6 +6,7 @@ import pandas as pd
 from tqdm.notebook import tqdm,trange
 
 
+
 def run_training(fold, params, save_model=False):
     df = pd.read_csv("./folds.csv")
     feature_columns = ['premise', 'hypothesis']
@@ -34,23 +35,34 @@ def run_training(fold, params, save_model=False):
     optimizer = torch.optim.Adam(model.parameters(), lr=params['lr'])
     eng = utils.Engine(model=model, device=config.device, optimizer=optimizer)
 
-    best_loss = np.inf
-    early_stopping_iter = 1
+    best_f1 = -np.inf
+    best_all_metric = None
+    early_stopping_iter = 2
     early_stopping_counter = 0
 
     for epoch in trange(config.epochs):
-        train_loss = eng.train(train_loader)
-        valid_loss = eng.evaluate(val_loader)
-        print(f"""{fold},{epoch},{train_loss},{valid_loss}""")
+        all_metric_tr, f1_tr = eng.train(train_loader)
+        all_metric_vl, f1_vl = eng.evaluate(val_loader)
 
-        if valid_loss < best_loss:
-            best_loss = valid_loss
+        print(f'\nepoch_{epoch}_results:')
+        print(f"""
+                fold:{fold},
+                epoch:{epoch},
+                {all_metric_vl},
+        """)
+
+        if f1_vl > best_f1:
+            best_f1 = f1_vl
+            best_all_metric = all_metric_vl
             if save_model:
                 torch.save(model.state_dict(), f"model_{fold}.bin")
-
         else:
             early_stopping_counter += 1
 
         if early_stopping_counter > early_stopping_iter:
             break
-    return best_loss
+
+    print(f'\nfold_{fold}_results:')
+    print(best_all_metric)
+
+    return best_f1

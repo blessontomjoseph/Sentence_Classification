@@ -1,8 +1,9 @@
 from transformers import AutoModel,AutoTokenizer
 
+
 class config:
     device = 'cuda'
-    epochs = 3
+    epochs = 5
     checkpoint = 'bert-base-multilingual-cased'
     tokenizer = AutoTokenizer.from_pretrained(checkpoint)
     base_model = AutoModel.from_pretrained(checkpoint)
