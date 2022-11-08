@@ -19,7 +19,7 @@ This project classifies pair of textual data into entailment, contradiction, or 
 
 - #### Optimization: ![stuff](rd_files/frame1.jpg)
     - the scoring used is f1 score
-    - the hyperparams are optimized on optuna with the objective of maximizing the mean best f1_score
+    - the hyperparams are optimized on optuna with the objective of maximizing the mean of best f1_score
 
 - suff optimized and selected:
     - model 
