@@ -1,18 +1,17 @@
+import transformers
 from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
 import torch
 import pandas as pd
 from tqdm import trange, tqdm
 import warnings
 warnings.simplefilter('ignore')
+from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
 
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = torch.load('../usr/lib/mdw_model_translation/model_arch')
-model.load_state_dict(torch.load(
-    '../usr/lib/mdw_model_translation/model_state'))
+device ='cuda'
+tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M")
+model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
 model.to(device)
 tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M")
-
 
 data = pd.read_csv('../input/contradictory-my-dear-watson/train.csv')
 from_lang = ['en']
