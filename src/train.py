@@ -8,7 +8,7 @@ from tqdm.notebook import tqdm,trange
 from transformers import AutoModel
 
 def run_training(fold, params):
-    df = pd.read_csv("./folds.csv")
+    df = pd.read_csv(r"data/folds.csv")
     feature_columns = ['premise', 'hypothesis']
     target_columns = ['label']
 
