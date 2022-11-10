@@ -1,6 +1,9 @@
 import torch
+import numpy as np
 import torch.nn as nn
+import torch.nn.functional as f
 from tqdm.autonotebook import tqdm, trange
+from sklearn import metrics
 
 
 class MDWDataset:
@@ -33,6 +36,11 @@ class Engine:
         self.optimizer = optimizer
 
     @staticmethod
+    def prediction(logits):
+        _, preds = torch.max(f.softmax(logits.detach(), dim=-1), dim=-1)
+        return preds
+
+    @staticmethod
     def loss_fn(outputs, targets):
         loss = nn.CrossEntropyLoss()
         return loss(outputs, targets)
@@ -40,6 +48,9 @@ class Engine:
     def train(self, data_loader):
         self.model.train()
         final_loss = 0
+        targets_full = np.array([])
+        preds_full = np.array([])
+
         for batch in tqdm(data_loader):
             self.optimizer.zero_grad()
             inputs = batch['x']
@@ -49,18 +60,51 @@ class Engine:
             loss.backward()
             self.optimizer.step()
             final_loss += loss.item()
-        return final_loss/len(data_loader)
+            preds = self.prediction(outputs)
+            preds_full = np.append(
+                preds_full, preds.to('cpu').numpy(), axis=-1)
+            targets_full = np.append(
+                targets_full, targets.to('cpu').numpy(), axis=-1)
+
+        stuff = {
+            'f1': metrics.f1_score(targets_full, preds_full, average='weighted'),
+            'accuracy': metrics.accuracy_score(targets_full, preds_full),
+            'precision': metrics.precision_score(targets_full, preds_full, average='weighted'),
+            'recall': metrics.recall_score(targets_full, preds_full, average='weighted'),
+            'confusion_matrix': metrics.confusion_matrix(targets_full, preds_full),
+            'avg_loss_per_batch': final_loss/len(data_loader)
+        }
+
+        return stuff, stuff['f1']
 
     def evaluate(self, data_loader):
         self.model.eval()
         final_loss = 0
+        targets_full = np.array([])
+        preds_full = np.array([])
+
         for batch in tqdm(data_loader):
             inputs = batch['x']
             targets = batch['y']
             outputs = self.model(inputs)
             loss = self.loss_fn(outputs, targets)
             final_loss += loss.item()
-        return final_loss/len(data_loader)
+            preds = self.prediction(outputs)
+            preds_full = np.append(
+                preds_full, preds.to('cpu').numpy(), axis=-1)
+            targets_full = np.append(
+                targets_full, targets.to('cpu').numpy(), axis=-1)
+
+        stuff = {
+            'f1': metrics.f1_score(targets_full, preds_full, average='weighted'),
+            'accuracy': metrics.accuracy_score(targets_full, preds_full),
+            'precision': metrics.precision_score(targets_full, preds_full, average='weighted'),
+            'recall': metrics.recall_score(targets_full, preds_full, average='weighted'),
+            'confusion_matrix': metrics.confusion_matrix(targets_full, preds_full),
+            'avg_loss_per_batch': final_loss/len(data_loader)
+        }
+
+        return stuff, stuff['f1']
 
 
 class Model(nn.Module):
