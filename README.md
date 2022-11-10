@@ -32,4 +32,3 @@ This is neural network based implementation on pytorch, where multiple pretraine
     - the entire data is trained on the best found parametersand the model is saved on the model directory.
 
 
-
