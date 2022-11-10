@@ -6,7 +6,7 @@ This project classifies pair of textual data into entailment, contradiction, or 
 
 
 ### Architecture
-- This is neural network based implementation on pytorch, where multiple pretrained hugging face models are tuned and optimized on a variety of hyperparameters.
+This is neural network based implementation on pytorch, where multiple pretrained hugging face models are tuned and optimized on a variety of hyperparameters.
 
 - #### Augmentation   
     - Further, data augmentation is performed using the [M2M100](https://huggingface.co/facebook/m2m100_418M) a multilingual encoder-decoder (seq-to-seq) model trained for many-to-many multilingual translation. from hugging face. [~more on augmentation](https://www.kaggle.com/datasets/blessontomjoseph/contradictory-my-dear-watsonmore-data?select=en_to_bg.cs)
@@ -27,13 +27,9 @@ This project classifies pair of textual data into entailment, contradiction, or 
     - traing batch size
     - validation batch size
     - dropout probability
-    - weight decay
-    - optimization algorithm
-    - momentum
-
+  
 - #### Training
-    - the entire data is trained on the best found parameters
-    - model saved on the model directory
+    - the entire data is trained on the best found parametersand the model is saved on the model directory.
 
 
 
