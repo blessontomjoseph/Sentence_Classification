@@ -43,5 +43,5 @@ if __name__=="__main__":
     meta_data['params'] = params
     meta_data['score'] = score[0]
     meta_data
-    pickle.dump(meta_data, open('./meta_data.p','wb'))
+    pickle.dump(meta_data, open(r"meta_data.p",'wb'))
     

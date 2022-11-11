@@ -1,8 +1,8 @@
 class config:
     device='cuda'
-    epochs=1
-    n_splits=2
+    epochs=2
+    n_splits=5
     optuna_n_trials=2
-    aug_translation=False
-    aug_interchange=False
+    aug_translation=True
+    aug_interchange=True
     seed=23
