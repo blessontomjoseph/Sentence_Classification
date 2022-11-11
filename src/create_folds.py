@@ -2,6 +2,8 @@ import pandas as pd
 from sklearn.model_selection import StratifiedKFold
 import config
 import os
+
+
 def aug_interchange(data):
     data.reset_index(drop=True, inplace=True)
     new_data = pd.DataFrame()
@@ -42,19 +44,18 @@ def load_data(train_path, test_path, more_path, augment=False, interchange=False
 
 
 if __name__ == "__main__":
-    data, test = load_data(train_path='../input/contradictory-my-dear-watson/train.csv',
-                           test_path='../input/contradictory-my-dear-watson/test.csv',
-                           more_path='../input/contradictory-my-dear-watsonmore-data',
+    data, test = load_data(train_path=r"data/train.csv",
+                           test_path=r"data/test.csv",
+                           more_path=r"data/aug_data",
                            augment=config.aug_translation,
                            interchange=config.aug_interchange)
-    
-    df = data.copy()
 
-    df.loc[:,"kfold"]=-1
-    df.sample(frac=1,random_state=config.seed).reset_index(drop=True)
-    targets=df["label"].to_list()
-    skf=StratifiedKFold(n_splits=config.n_splits)
-    for fold,(train,val) in enumerate(skf.split(X=df,y=targets)):
-        df.loc[val,"kfold"]=fold
-        
-    df.to_csv("folds.csv",index=False)
+    df = data.copy()
+    df.loc[:, "kfold"] = -1
+    df.sample(frac=1, random_state=config.seed).reset_index(drop=True)
+    targets = df["label"].to_list()
+    skf = StratifiedKFold(n_splits=config.n_splits)
+    for fold, (train, val) in enumerate(skf.split(X=df, y=targets)):
+        df.loc[val, "kfold"] = fold
+
+    df.to_csv(r"folds/folds.csv", index=False)

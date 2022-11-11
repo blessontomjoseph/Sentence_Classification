@@ -1,6 +1,3 @@
-from transformers import AutoModel,AutoTokenizer
-
-
 class config:
     device='cuda'
     epochs=1

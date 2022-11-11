@@ -9,7 +9,7 @@ model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
 model.to(device)
 tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M")
 
-data = pd.read_csv('../input/contradictory-my-dear-watson/train.csv')
+data = pd.read_csv(r"data/train.csv")
 from_lang = ['en']
 to_lang_ = [i for i in data.lang_abv.unique() if i != 'en']
 to_lang = [i for i in to_lang_ if i not in [
