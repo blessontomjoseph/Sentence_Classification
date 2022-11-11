@@ -19,16 +19,16 @@ This is neural network based implementation on pytorch, where multiple pretraine
 
 - #### Optimization: ![stuff](rd_files/frame1.jpg)
     - the scoring used is f1 score
-    - the hyperparams are optimized on optuna with the objective of maximizing the mean of best f1_score
+    - the hyperparams are optimized on optuna with the objective of maximizing the mean of best f1_score over all of the folds.
 
 - suff optimized and selected:
-    - model 
+    - model architecture
     - learning rate
     - traing batch size
     - validation batch size
     - dropout probability
   
 - #### Training
-    - the entire data is trained on the best found parametersand the model is saved on the model directory.
+    - the entire data is trained on the best found parametersand the best model state is saved on the model directory.
 
 
