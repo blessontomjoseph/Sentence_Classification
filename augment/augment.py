@@ -1,10 +1,6 @@
-import transformers
-from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
-import torch
+import os
 import pandas as pd
-from tqdm import trange, tqdm
-import warnings
-warnings.simplefilter('ignore')
+from tqdm import trange
 from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
 
 device ='cuda'
@@ -54,7 +50,7 @@ def Augment():
                 mini.hypothesis.iloc[i] = sent_hy[0]
                 mini.premise.iloc[i] = sent_pre[0]
                 mini.lang_abv.iloc[i] = other_lang
-            mini.to_csv(lang+'_to_'+other_lang+'.csv', header=True)
+            mini.to_csv(os.path.join("data/aug_data",lang+'_to_'+other_lang+'.csv'), header=True)
 
 
 if __name__ == '__main__':
