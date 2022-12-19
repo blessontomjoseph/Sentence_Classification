@@ -18,7 +18,7 @@ if __name__=="__main__":
             info['model_score']=score
             info['on_fold']=fold
             
-pickle.dump(best_model_state,open("model/best_model_state.p","wb"))
-pickle.dump(info,open("model/info.p","wb"))
+pickle.dump(best_model_state,open("../model/best_model_state.p","wb"))
+pickle.dump(info,open("../model/info.p","wb"))
 
 
