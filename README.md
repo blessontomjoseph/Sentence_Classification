@@ -1,4 +1,4 @@
-# Contradictory sentence classification
+# Sentence Classification
 
 ### Data
 This project classifies pair of textual data into entailment, contradiction, or neutral. data are in 15 different languages.
